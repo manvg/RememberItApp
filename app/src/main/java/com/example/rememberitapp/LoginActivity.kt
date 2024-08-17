@@ -44,8 +44,8 @@ class LoginActivity : AppCompatActivity() {
 
         val gson = Gson()
 
-        // Verificar si ya existe una sesión activa
-        val jsonUsuarioSesion = sharedPreferences.getString("usuarioSesion", null)
+        //COMENTADO TEMPORALMENTE Verificar si ya existe una sesión activa
+        /*val jsonUsuarioSesion = sharedPreferences.getString("usuarioSesion", null)
         if (jsonUsuarioSesion != null) {
             val usuarioSesion = gson.fromJson(jsonUsuarioSesion, UsuarioSesion::class.java)
             if (usuarioSesion.isActive) {
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
                 finish()
                 return
             }
-        }
+        }*/
 
         val emailInput: TextInputEditText = findViewById(id.email_input)
         val passwordInput: TextInputEditText = findViewById(id.password_input)
@@ -103,7 +103,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Botón "Saltar"
+        //Botón "Saltar"
         val skipButton: Button = findViewById(id.skip_button)
         skipButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -111,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
 
-        // Link "Crear cuenta"
+        //Botón "Crear cuenta"
         val registerText: TextView = findViewById(id.register_text)
         registerText.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)

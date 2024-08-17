@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_cerrar_sesion"
+        android:title="Cerrar sesión" />
+    <item
+        android:id="@+id/menu_crear_cuenta"
+        android:title="Crear cuenta"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_iniciar_sesion"
+        android:title="Iniciar sesión"
+        android:visible="false"/>
+</menu>

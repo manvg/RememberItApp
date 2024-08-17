@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- LinearLayout para el mensaje de bienvenida y el título "Recordatorios" -->
+        <!-- Mensaje de bienvenida y título -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -72,10 +72,23 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@android:color/transparent">
 
-                <!-- Botón flotante para agregar un nuevo recordatorio -->
+                <!-- Icono de Ajustes -->
+                <ImageView
+                    android:id="@+id/btn_ajustes"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginEnd="96dp"
+                    android:layout_marginBottom="24dp"
+                    android:clickable="true"
+                    android:contentDescription="Abrir Ajustes"
+                    android:elevation="10dp"
+                    android:src="@drawable/ic_7" />
+
+                <!-- Botón flotante para agregar un nuevo receta -->
                 <ImageView
                     android:id="@+id/btn_agregar"
                     android:layout_width="50dp"
@@ -83,13 +96,19 @@
                     android:layout_gravity="end|bottom"
                     android:layout_margin="24dp"
                     android:clickable="true"
-                    android:contentDescription="Agregar recordatorio"
+                    android:contentDescription="Agregar receta"
                     android:elevation="10dp"
                     android:src="@drawable/circle_plus" />
             </FrameLayout>
         </androidx.cardview.widget.CardView>
-
-        <!-- Primer recordatorio -->
+        <LinearLayout
+            android:id="@+id/recordatorios_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/panel_botones"
+            android:layout_marginTop="16dp"/>
+        <!--
         <androidx.cardview.widget.CardView
             android:id="@+id/recordatorio_item_1"
             android:layout_width="0dp"
@@ -102,62 +121,62 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/panel_botones">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical"
+             android:padding="16dp">
 
-                <ImageView
-                    android:id="@+id/recordatorio_imagen_1"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/calendar_icon_hoy" />
+             <ImageView
+                 android:id="@+id/recordatorio_imagen_1"
+                 android:layout_width="100dp"
+                 android:layout_height="100dp"
+                 android:adjustViewBounds="true"
+                 android:scaleType="fitXY"
+                 android:src="@drawable/calendar_icon_hoy" />
 
-                <TextView
-                    android:id="@+id/recordatorio_titulo_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Medicamentos para la presión"
-                    android:textColor="#3b608c"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+             <TextView
+                 android:id="@+id/recordatorio_titulo"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="8dp"
+                 android:text="Medicamentos para la presión"
+                 android:textColor="#3b608c"
+                 android:textSize="18sp"
+                 android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/recordatorio_descripcion_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Hoy a las 22:00"
-                    android:textColor="#5e5e5e"
-                    android:textSize="14sp" />
+             <TextView
+                 android:id="@+id/recordatorio_fecha_hora"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="4dp"
+                 android:text="Hoy a las 22:00"
+                 android:textColor="#5e5e5e"
+                 android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/recordatorio_dosis_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="1 pastilla de 100mg"
-                    android:textColor="#5e5e5e"
-                    android:textSize="14sp" />
+             <TextView
+                 android:id="@+id/recordatorio_descripcion_1"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_marginTop="4dp"
+                 android:text="1 pastilla de 100mg"
+                 android:textColor="#5e5e5e"
+                 android:textSize="14sp" />
 
-                <Button
-                    android:id="@+id/view_recipe_button_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#EA6D35"
-                    android:text="Ver"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+             <Button
+                 android:id="@+id/editar_button_1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="end"
+                 android:layout_marginTop="8dp"
+                 android:backgroundTint="#EA6D35"
+                 android:text="Ver"
+                 android:textColor="@android:color/white"
+                 android:textStyle="bold" />
+         </LinearLayout>
+     </androidx.cardview.widget.CardView>-->
 
-        <!-- Segundo recordatorio -->
+     <!-- Segundo receta -->
         <androidx.cardview.widget.CardView
             android:id="@+id/recordatorio_item_2"
             android:layout_width="0dp"
@@ -168,61 +187,8 @@
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recordatorio_item_1">
+            app:layout_constraintTop_toBottomOf="@id/panel_botones">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/recordatorio_imagen_2"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/calendar_icon_hoy" />
-
-                <TextView
-                    android:id="@+id/recordatorio_titulo_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Tomar magnesio"
-                    android:textColor="#3b608c"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/recordatorio_descripcion_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Mañana a las 10:00"
-                    android:textColor="#5e5e5e"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/recordatorio_dosis_2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Presentar informe de progreso"
-                    android:textColor="#5e5e5e"
-                    android:textSize="14sp" />
-
-                <Button
-                    android:id="@+id/view_recipe_button_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
-                    android:backgroundTint="#EA6D35"
-                    android:text="Ver"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

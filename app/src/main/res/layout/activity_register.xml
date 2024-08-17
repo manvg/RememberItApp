@@ -109,7 +109,10 @@
                 android:drawableStart="@drawable/ic_5"
                 android:background="@drawable/text_input_background"
                 android:textColorHint="#5e5e5e"
-                android:textColor="#5e5e5e"/>
+                android:textColor="#5e5e5e"
+                android:focusable="false"
+                android:clickable="true"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

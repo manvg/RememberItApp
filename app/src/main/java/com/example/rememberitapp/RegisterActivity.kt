@@ -1,5 +1,6 @@
 package com.example.rememberitapp
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
@@ -13,6 +14,7 @@ import androidx.security.crypto.MasterKey
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.Calendar
 
 data class UsuarioSesion(
     val nombre: String,
@@ -41,6 +43,11 @@ class RegisterActivity : AppCompatActivity() {
         val fechaNacimientoInput: TextInputEditText = findViewById(R.id.fecha_nacimiento_input)
         val emailInput: TextInputEditText = findViewById(R.id.email_input)
         val passwordInput: TextInputEditText = findViewById(R.id.password_input)
+
+        // Configurar el DatePickerDialog para la selección de la fecha de nacimiento
+        fechaNacimientoInput.setOnClickListener {
+            showDatePickerDialog(fechaNacimientoInput)
+        }
 
         val masterKey = MasterKey.Builder(this)
             .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -111,5 +118,25 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    // Método para mostrar el DatePickerDialog
+    private fun showDatePickerDialog(fechaNacimientoInput: TextInputEditText) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                // Formatear la fecha seleccionada y establecerla en el campo de texto
+                val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                fechaNacimientoInput.setText(formattedDate)
+            },
+            year, month, day
+        )
+
+        datePickerDialog.show()
     }
 }
