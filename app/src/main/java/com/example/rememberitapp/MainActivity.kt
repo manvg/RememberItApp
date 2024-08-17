@@ -14,6 +14,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -62,6 +63,8 @@ class MainActivity : AppCompatActivity() {
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
+        //Datos en memoria
+        cargarRecordatoriosDesdeMemoria()
 
         val gson = Gson()
         val usuarioSesionJson = sharedPreferences.getString("usuarioSesion", null)
@@ -77,33 +80,19 @@ class MainActivity : AppCompatActivity() {
             }else{
                 bienvenidaUsuarioTextView.text = "Bienvenido"
             }
-
-
-            // Cargar los recordatorios si la sesión está activa
-            /*if (usuarioSesion.isActive) {
-                recordatorios.addAll(
-                    listOf(
-                        Recordatorio(1, "15/08/2024 08:30", "Hora médica", "Control médico en Santiago", true),
-                        Recordatorio(2, "15/08/2024 12:00", "Tomar medicamento para la presión", "1 Pastilla Hidrium 40mg", true),
-                        Recordatorio(3, "15/08/2024 20:00", "Controlar presión arterial", "Medir presión arterial", true),
-                        Recordatorio(4, "15/08/2024 21:00", "Tomar Ciclobenzapina", "10 mg", true),
-                        Recordatorio(5, "16/08/2024 09:00", "Tomar medicamento para la presión", "1 Pastilla Hidrium 40mg", true)
-                    )
-                )
-            }*/
         } else {
             bienvenidaUsuarioTextView.text = "Bienvenido"
         }
 
         actualizarVistaRecordatorios()
 
-        // Configurar el botón de ajustes
+        //Mostrar menú
         val btnAjustes: ImageView = findViewById(id.btn_ajustes)
         btnAjustes.setOnClickListener { view ->
             showPopupMenu(view)
         }
 
-        // Configurar el botón de agregar
+        //Mostrar formulario agregar recordatorio
         val btnAgregar: ImageView = findViewById(id.btn_agregar)
         btnAgregar.setOnClickListener {
             mostrarFormularioAgregarRecordatorio()
@@ -128,15 +117,15 @@ class MainActivity : AppCompatActivity() {
         val fechaInput: TextInputEditText = dialogView.findViewById(id.fecha_input)
         val btnGuardar: Button = dialogView.findViewById(id.btn_guardar)
 
-        //Cargar campos a editar
+        // Cargar campos a editar
         recordatorio?.let {
             tituloInput.setText(it.titulo)
             descripcionInput.setText(it.descripcion)
             fechaInput.setText(it.fechaRecordatorio)
         }
-        //Cargar fecha
+        // Cargar fecha
         fechaInput.apply {
-            inputType = 0  //Ocultar el teclado
+            inputType = 0  // Ocultar el teclado
             isFocusable = false
             isFocusableInTouchMode = false
             setOnClickListener {
@@ -151,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
             if (titulo.isNotEmpty() && descripcion.isNotEmpty() && fecha.isNotEmpty()) {
                 if (recordatorio == null) {
-                    //Nuevo recordatorio
+                    // Nuevo recordatorio
                     val nuevoRecordatorio = Recordatorio(
                         idRecordatorio = recordatorioIdCounter++,
                         fechaRecordatorio = fecha,
@@ -161,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     recordatorios.add(nuevoRecordatorio)
                 } else {
-                    //Editar recordatorio
+                    // Editar recordatorio
                     val index = recordatorios.indexOfFirst { it.idRecordatorio == recordatorio.idRecordatorio }
                     if (index != -1) {
                         recordatorios[index] = recordatorio.copy(
@@ -172,11 +161,36 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
+                // Guardar los recordatorios en SharedPreferences
+                guardarRecordatoriosEnMemoria()
+
                 actualizarVistaRecordatorios()
-                dialog.dismiss() // Cerrar el diálogo
+                dialog.dismiss()
             } else {
-                // Mostrar un mensaje de error si los campos están vacíos
-                // Esto puede ser un Toast, un Snackbar, o un mensaje en los TextInputLayouts
+                var isValid = true
+
+                if (titulo.isEmpty()) {
+                    tituloInput.error = "El título no puede estar vacío"
+                    isValid = false
+                } else {
+                    tituloInput.error = null
+                }
+
+                if (descripcion.isEmpty()) {
+                    descripcionInput.error = "La descripción no puede estar vacía"
+                    isValid = false
+                } else {
+                    descripcionInput.error = null
+                }
+
+                if (fecha.isEmpty()) {
+                    fechaInput.error = "La fecha no puede estar vacía"
+                    isValid = false
+                } else {
+                    fechaInput.error = null
+                }
+
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -230,8 +244,8 @@ class MainActivity : AppCompatActivity() {
             tituloTextView.text = "Agregar Recordatorios"
             descripcionTextView.text = "Aún no tienes recordatorios. Agrega uno nuevo."
             fechaTextView.text = ""
-            btnEditar.visibility = View.GONE  // Ocultar botón "Editar"
-            btnEliminar.visibility = View.GONE // Ocultar botón "Eliminar"
+            btnEditar.visibility = View.GONE
+            btnEliminar.visibility = View.GONE
 
             defaultView.setOnClickListener {
                 mostrarFormularioAgregarRecordatorio()
@@ -281,10 +295,6 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun eliminarRecordatorio(recordatorio: Recordatorio) {
-        recordatorios.remove(recordatorio)
-        actualizarVistaRecordatorios()
-    }
 
     private fun showPopupMenu(view: View) {
         val popup = PopupMenu(this, view)
@@ -384,5 +394,32 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
+    //----------Datos en memoria---------//
+    private fun cargarRecordatoriosDesdeMemoria() {
+        val sharedPreferences = getSharedPreferences("RecordatoriosPrefs", MODE_PRIVATE)
+        val gson = Gson()
+        val jsonRecordatorios = sharedPreferences.getString("recordatorios", null)
+        if (jsonRecordatorios != null) {
+            val recordatorioArray = gson.fromJson(jsonRecordatorios, Array<Recordatorio>::class.java)
+            if (recordatorioArray != null) {
+                recordatorios.addAll(recordatorioArray)
+            }
+        }
+    }
 
+
+    private fun guardarRecordatoriosEnMemoria() {
+        val sharedPreferences = getSharedPreferences("RecordatoriosPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val gson = Gson()
+        val jsonRecordatorios = gson.toJson(recordatorios)
+        editor.putString("recordatorios", jsonRecordatorios)
+        editor.apply()
+    }
+
+    private fun eliminarRecordatorio(recordatorio: Recordatorio) {
+        recordatorios.remove(recordatorio)
+        guardarRecordatoriosEnMemoria()
+        actualizarVistaRecordatorios()
+    }
 }

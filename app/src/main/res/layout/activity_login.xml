@@ -28,7 +28,7 @@
         android:maxWidth="150dp"
         android:maxHeight="150dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/logo_remember_it"
+        android:src="@drawable/logo_con_nombre_y_fondo"
         app:layout_constraintBottom_toBottomOf="@id/top_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -129,7 +129,7 @@
         app:layout_constraintBottom_toTopOf="@id/register_text"/>
 
     <TextView
-        android:id="@+id/forgot_password_text"
+        android:id="@+id/recuperar_contrasena_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"

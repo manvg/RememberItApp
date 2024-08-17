@@ -57,6 +57,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }*/
 
+        //----------Inicio botón Login----------//
         val emailInput: TextInputEditText = findViewById(id.email_input)
         val passwordInput: TextInputEditText = findViewById(id.password_input)
         val loginButton: ImageView = findViewById(R.id.btn_login)
@@ -102,20 +103,33 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Usuario no encontrado. Por favor, regístrese.", Toast.LENGTH_SHORT).show()
             }
         }
+        //----------Fin botón Login----------//
 
-        //Botón "Saltar"
+        //----------Inicio botón Saltar----------//
         val skipButton: Button = findViewById(id.skip_button)
         skipButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
+        //----------fin botón Saltar----------//
 
-        //Botón "Crear cuenta"
+        //----------Inicio botón Registro----------//
         val registerText: TextView = findViewById(id.register_text)
         registerText.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+        //----------fin botón Registro----------//
+
+        //----------Inicio Recuperar contraseña----------//
+        val recuperarContrasenaText: TextView = findViewById(R.id.recuperar_contrasena_text)
+
+        // Configurar el listener para redirigir a la actividad de recuperación de contraseña
+        recuperarContrasenaText.setOnClickListener {
+            val intent = Intent(this, RecuperarActivity::class.java)
+            startActivity(intent)
+        }
+        //----------Fin Recuperar contraseña----------//
     }
 }
