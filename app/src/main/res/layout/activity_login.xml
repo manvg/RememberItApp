@@ -7,7 +7,7 @@
     android:background="#f8eeec"
     tools:context=".LoginActivity">
 
-    <!-- Logo de la empresa -->
+    <!-- Imagen de fondo -->
     <ImageView
         android:id="@+id/top_background"
         android:layout_width="0dp"
@@ -17,6 +17,24 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo de la app -->
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="113dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="20dp"
+        android:maxWidth="150dp"
+        android:maxHeight="150dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo_remember_it"
+        app:layout_constraintBottom_toBottomOf="@id/top_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/top_background"
+        app:layout_constraintVertical_bias="0.717" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/skip_button"
