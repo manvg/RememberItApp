@@ -88,8 +88,6 @@ class LoginActivity : AppCompatActivity() {
                     editor.putString("usuarioSesion", usuarioSesionJson)
                     editor.apply()
 
-                    val nombreUsuario = usuarioEncontrado.nombre
-                    findViewById<TextView>(R.id.bienvenida_usuario).text = "Hola, $nombreUsuario"
                     // Iniciar sesión y redirigir al MainActivity
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
